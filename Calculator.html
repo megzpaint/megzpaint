@@ -39,23 +39,41 @@
                             </select>
                         </div>
                         <div class="col-lg-12">
-                            <div id="input_FPA_Label" class="py-2 h5">Enter FPA</div>
+                            <div id="input_FPA_Label" class="py-2 h5">Enter (Sqm x rate)</div>
                             <input id="input_FPA" type="number" onkeyup="FPA_OnChange()" style="font-size:20px" class="form-control form-control-lg" />
                         </div>
                         <div class="col-lg-12">
                             <div class="py-2 h5">Enter Rates</div>
                             <input id="input_Rate" type="number" onkeyup="FPA_OnChange()" style="font-size:20px" class="form-control form-control-lg" />
                         </div>
-                        <div class="col-lg-12 py-5">
+                        <div class="col-lg-12 py-2">
                             <span id="totalAmount" class="h1"></span>
+                            <div class="py-1"></div>
+                            <button class="btn btn-success w-100" id="save_button">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-8">
+                <hr />
+                <table class="table table-sm">
+                    <thead class="bg-light">
+                        <tr>
+                            <td><b>Id</b></td>
+                            <td><b>Description</b></td>
+                            <td><b>Qty m2</b></td>
+                            <td><b>Price</b></td>
+                            <td><b>Amount</b></td>
+                            <td width="100px"><b>Action</b></td>
+                        </tr>
+                    </thead>
+                    <tbody id="MyData">
+                    </tbody>
+                </table>
+                <div class="h4 text-end">Total: <span id="grandTotal">0.00</span></div>
+            </div>
         </div>
     </div>
-
-
 
     <script>
 
@@ -75,7 +93,6 @@
             return (fpa * 3 * rate);
         }
         function ComputeWalls_80(fpa, rate) {
-            //return (fpa * 1.80 * rate);
             return fpa * rate;
         }
         function ComputeRoofs_1400(fpa, rate) {
@@ -85,17 +102,13 @@
             return (fpa * 2 * rate);
         }
         function ComputeSoffits(fpa, rate) {
-            //return (fpa * 1.14 * rate);
             return fpa * rate;
         }
         function ComputeBase(fpa, rate) {
             return (fpa * 1.15 * rate);
         }
 
-
-
         function formatNumber(number) {
-            // Format the number with 2 decimal places and include comma as thousand separator
             return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
@@ -103,8 +116,6 @@
             var fpa = Number(input_FPA.value);
             var rate = Number(input_Rate.value);
             var result = 0;
-
-
 
             if (
                 select_Category.value == 'All Interior' ||
@@ -143,7 +154,6 @@
                 select_Category.value == 'Cedar' ||
                 select_Category.value == 'Deck' ||
                 select_Category.value == 'Brick'
-
             ) {
                 input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
                 result = ComputeSoffits(fpa, rate);
@@ -158,6 +168,87 @@
             }
             totalAmount.innerHTML = 'Amount : ' + formatNumber(result);
         }
+    </script>
+
+    <script>
+
+        document.getElementById('save_button').addEventListener('click', function () {
+            alert(totalAmount.innerHTML);
+            if (totalAmount.innerHTML.includes('Amount : 0.00') == true || totalAmount.innerHTML == '') {
+                alert('Please fill up the form');
+            } else {
+                SaveReservation();
+            }
+        });
+
+        var ReservationList = [];
+
+        function SaveReservation() {
+            var list = localStorage.getItem("ReservationList");
+            const date = new Date();
+            var today = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+            if (list) {
+                var data = JSON.parse('[' + list + ']');
+                data = '{"Id":"' + (data.length + 1) + '", "Description": "' + select_Category.value + '", "Qty": "' + input_Rate.value + '", "Price": "' + formatNumber(input_FPA.value) + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
+
+                var Current = list;
+                var Insert = data;
+                var NewData = Current + ',' + Insert;
+                localStorage.setItem("ReservationList", NewData);
+            } else {
+                var JSONdata = '{"Id": "' + 1 + '", "Description": "' + select_Category.value + '", "Qty": "' + input_Rate.value + '", "Price": "' + formatNumber(input_FPA.value) + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
+                localStorage.setItem("ReservationList", JSONdata);
+            }
+            bind();
+        }
+
+        function RequestDeletion(id) {
+            if (confirm('Are you sure you want to delete id ' + id + '?')) {
+                var list = localStorage.getItem("ReservationList");
+                var data = JSON.parse('[' + list + ']');
+
+                var NewData = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Id != id) {
+                        NewData += '{"Id":"' + data[i].Id + '", "Description": "' + data[i].Description + '", "Qty": "' + data[i].Qty + '", "Price": "' + data[i].Price + '", "Amount": "' + data[i].Amount + '"},';
+                    }
+                }
+                NewData = NewData.slice(0, -1);
+                localStorage.setItem("ReservationList", NewData);
+                bind();
+            }
+        }
+
+        function calculateGrandTotal(data) {
+            let total = 0;
+            for (var i = 0; i < data.length; i++) {
+                total += parseFloat(data[i].Amount.replace(/,/g, ''));
+            }
+            return total;
+        }
+
+        function bind() {
+            var list = localStorage.getItem("ReservationList");
+            var data = JSON.parse('[' + list + ']');
+            var row = '';
+            for (var i = data.length - 1; i >= 0; i--) {
+                row += '<tr>';
+                row += '<td>' + data[i].Id + '</td>';
+                row += '<td>' + data[i].Description + '</td>';
+                row += '<td>' + data[i].Qty + '</td>';
+                row += '<td>' + data[i].Price + '</td>';
+                row += '<td>' + data[i].Amount + '</td>';
+                row += '<td>';
+                row += '<a onclick="RequestDeletion(' + data[i].Id + ')" class="btn delete-btn">Delete</a></td>';
+                row += '</tr>';
+            }
+            document.getElementById('MyData').innerHTML = row;
+
+            // Calculate and display the grand total
+            document.getElementById('grandTotal').innerText = formatNumber(calculateGrandTotal(data));
+        }
+
+        bind();
     </script>
 </body>
 </html>
