@@ -1,0 +1,11 @@
+﻿/* Footer Styles */
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+
+}
+
+    footer p {
+        margin: 0;
+    }

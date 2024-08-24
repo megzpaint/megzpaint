@@ -1,0 +1,133 @@
+﻿#Home {
+    background-color: whitesmoke;
+    padding-bottom: 15px;
+}
+
+.image-container {
+    position: relative; /* Changed from absolute to relative */
+    width: 100%;
+    height: 100%; /* Adjust as needed for your design */
+    margin: auto;
+}
+
+.home-img-landing {
+    width: 100%;
+    display: block;
+    height: 100vh;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
+
+
+.home-text {
+    color: white; /* Text color with opacity */
+    text-shadow: 10px 10px 10px rgba(0, 0, 0, 0); /* Larger, more pronounced shadow */
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 25vh;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.home-text-size:nth-child(1) {
+    font-weight: bold;
+    font-size: 10vh;
+    opacity: .7;
+}
+
+.home-text-size:nth-child(2) {
+    font-weight: bold;
+    font-size: 5vh;
+    opacity: .7;
+}
+
+
+.home-text-paragraph {
+    padding-left: 5vh;
+    padding-right: 5vh;
+    font-size: 3vh;
+}
+
+.home-enquire-now {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: var(--second);
+    text-decoration: none;
+    color: var(--first)!important;
+}
+.home-enquire-now:hover{
+    filter:brightness(.8);
+}
+
+
+.img-dot {
+    margin-top: 20px;
+    text-align: center;
+}
+
+    .img-dot span {
+        width: 12px;
+        height: 12px;
+        background-color: var(--first);
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+        transition: background-color 0.6s ease;
+    }
+
+        .img-dot span:hover {
+            background-color: var(--second) !important;
+            opacity: .7;
+        }
+
+.img-dot-active {
+    background-color: var(--second) !important;
+}
+
+
+.home-icon {
+    font-size: 70px;
+    color: var(--second);
+}
+
+
+
+@keyframes brand-text-blink {
+    0% {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: var(--second);
+    }
+}
+
+@media screen and (max-width:992px) {
+
+    .home-text-size:nth-child(1) {
+        font-size: 5.5vh;
+    }
+
+    .home-text-size:nth-child(2) {
+        font-size: 3vh;
+    }
+
+    .home-text-paragraph {
+        font-size: 2vh;
+    }
+
+    .home-icon {
+        font-size: 40px;
+        color: var(--second);
+    }
+    .home-paragraph-contaier{
+        padding-left:10px;
+        padding-right:10px;
+    }
+}
