@@ -21,11 +21,19 @@
                 top: 0;
                 width: 100%;
             }
-                /* Hide the last column of the table */
-                #printableTable td:last-child,
-                #printableTable th:last-child {
-                    display: none;
-                }
+
+            /* Show these elements in the print view */
+            #printableValues, #printableValues * {
+                visibility: visible;
+            }
+        }
+
+        /* Hide these elements from print view */
+        @media screen {
+            #printableValues {
+                display: none;
+            }
+        }
         }
     </style>
 </head>
@@ -122,8 +130,14 @@
                             </tr>
                         </tfoot>
                     </table>
-                </div>
+                    <div id="printableValues" class="py-3">
+                        <div><b>Cost of Materials:</b> <span id="displayCostOfMaterials">0.00</span></div>
+                        <div><b>Hours to Complete:</b> <span id="displayHoursToComplete">0.00</span></div>
+                        <div><b>TRH Including GST:</b> <span id="displayTRHIncludingGST">0.00</span></div>
+                    </div>
 
+                </div>
+   
 
                 <div class="py-1">
                     <b>Cost of materials</b>
@@ -328,16 +342,23 @@
                 if (isNaN(costOfMaterials) || isNaN(hoursToComplete) || costOfMaterials <= 0 || hoursToComplete <= 0) {
 
                 }
-                else
-                {
+                else {
                     // Calculate earnings per hour (D) based on the formula
                     var earningsPerHour = (grandTotal - costOfMaterials) / hoursToComplete;
 
+
                     // Display the result
                     document.getElementById('result').innerHTML = `Earnings per hour: ${formatNumber(earningsPerHour)}`;
+
+
+                    // Update values for print
+                    document.getElementById('displayCostOfMaterials').innerText = formatNumber(costOfMaterials);
+                    document.getElementById('displayHoursToComplete').innerText = formatNumber(hoursToComplete);
+                    document.getElementById('displayTRHIncludingGST').innerText = formatNumber(earningsPerHour);
+
                 }
 
-              
+
             } catch (error) {
                 console.error('Error calculating earnings per hour:', error);
                 document.getElementById('result').innerHTML = 'Error calculating earnings per hour.';
