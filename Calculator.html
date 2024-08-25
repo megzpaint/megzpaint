@@ -97,19 +97,19 @@
             </div>
             <div class="col-lg-8 shadow shadow-sm">
                 <hr />
-                <div id="printableTable">
+                <div id="printableTable" class="table-responsive">
                     <table class="table table-sm">
-                        <thead class="bg-light">
+                        <thead class="bg-light text-center">
                             <tr>
-                                <td><b>Id</b></td>
-                                <td><b>Description</b></td>
-                                <td><b>Qty m2</b></td>
-                                <td><b>Price</b></td>
-                                <td><b>Amount</b></td>
-                                <td width="100px"><b>Action</b></td>
+                                <td class="text-nowrap px-4"><b>Id</b></td>
+                                <td class="text-nowrap px-4"><b>Description</b></td>
+                                <td class="text-nowrap px-4"><b>Qty m2</b></td>
+                                <td class="text-nowrap px-4"><b>Price</b></td>
+                                <td class="text-nowrap px-4"><b>Amount</b></td>
+                                <td class="text-nowrap px-4" width="100px"><b>Action</b></td>
                             </tr>
                         </thead>
-                        <tbody id="MyData">
+                        <tbody id="MyData" class="text-center">
                         </tbody>
                         <tfoot class="text-end">
                             <tr>
@@ -143,7 +143,7 @@
                     </div>
 
                 </div>
-   
+
 
                 <div class="py-1">
                     <b>Cost of materials</b>
@@ -215,7 +215,7 @@
                 select_Category.value == 'High Door' ||
                 select_Category.value == 'Featured Wall' ||
                 select_Category.value == 'Whole House' ||
-                select_Category.value == 'Water Blasting' 
+                select_Category.value == 'Water Blasting'
 
             ) {
                 input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
