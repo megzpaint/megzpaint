@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Area Calculator</title>
     <link href="assets/bootstrap5/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printableTable, #printableTable * {
+                visibility: visible;
+            }
+
+            #printableTable {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+                /* Hide the last column of the table */
+                #printableTable td:last-child,
+                #printableTable th:last-child {
+                    display: none;
+                }
+        }
+    </style>
 </head>
 <body>
 
@@ -56,21 +79,47 @@
             </div>
             <div class="col-lg-8">
                 <hr />
-                <table class="table table-sm">
-                    <thead class="bg-light">
-                        <tr>
-                            <td><b>Id</b></td>
-                            <td><b>Description</b></td>
-                            <td><b>Qty m2</b></td>
-                            <td><b>Price</b></td>
-                            <td><b>Amount</b></td>
-                            <td width="100px"><b>Action</b></td>
-                        </tr>
-                    </thead>
-                    <tbody id="MyData">
-                    </tbody>
-                </table>
-                <div class="h4 text-end">Total: <span id="grandTotal">0.00</span></div>
+                <div id="printableTable">
+                    <table class="table table-sm">
+                        <thead class="bg-light">
+                            <tr>
+                                <td><b>Id</b></td>
+                                <td><b>Description</b></td>
+                                <td><b>Qty m2</b></td>
+                                <td><b>Price</b></td>
+                                <td><b>Amount</b></td>
+                                <td width="100px"><b>Action</b></td>
+                            </tr>
+                        </thead>
+                        <tbody id="MyData">
+                        </tbody>
+                        <tfoot class="text-end">
+                            <tr>
+                                <td colspan="5" class="text-end">
+                                    <b>Subtotal:</b>
+                                    <span id="subtotal"></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end">
+                                    <b>GST (15%):</b>
+                                    <span id="gst"></span>
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-end">
+                                    <b>Grand Total:</b>
+                                    <span id="grandTotal"></span>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <button class="btn btn-primary" onclick="printTable()">Print Table</button>
             </div>
         </div>
     </div>
@@ -173,7 +222,6 @@
     <script>
 
         document.getElementById('save_button').addEventListener('click', function () {
-            alert(totalAmount.innerHTML);
             if (totalAmount.innerHTML.includes('Amount : 0.00') == true || totalAmount.innerHTML == '') {
                 alert('Please fill up the form');
             } else {
@@ -189,14 +237,14 @@
             var today = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
             if (list) {
                 var data = JSON.parse('[' + list + ']');
-                data = '{"Id":"' + (data.length + 1) + '", "Description": "' + select_Category.value + '", "Qty": "' + input_Rate.value + '", "Price": "' + formatNumber(input_FPA.value) + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
+                data = '{"Id":"' + (data.length + 1) + '", "Description": "' + select_Category.value + '", "Qty": "' + formatNumber(input_FPA.value) + '", "Price": "' + input_Rate.value + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
 
                 var Current = list;
                 var Insert = data;
                 var NewData = Current + ',' + Insert;
                 localStorage.setItem("ReservationList", NewData);
             } else {
-                var JSONdata = '{"Id": "' + 1 + '", "Description": "' + select_Category.value + '", "Qty": "' + input_Rate.value + '", "Price": "' + formatNumber(input_FPA.value) + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
+                var JSONdata = '{"Id": "' + 1 + '", "Description": "' + select_Category.value + '", "Qty": "' + formatNumber(input_FPA.value) + '", "Price": "' + input_Rate.value + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
                 localStorage.setItem("ReservationList", JSONdata);
             }
             bind();
@@ -244,10 +292,18 @@
             }
             document.getElementById('MyData').innerHTML = row;
 
-            // Calculate and display the grand total
-            document.getElementById('grandTotal').innerText = formatNumber(calculateGrandTotal(data));
-        }
+            // Calculate and display the subtotal, GST, and grand total
+            let subtotal = calculateGrandTotal(data);
+            let gst = (subtotal * 0.15);
+            let grandTotal = (parseFloat(subtotal) + parseFloat(gst));
 
+            document.getElementById('subtotal').innerText = formatNumber(subtotal);
+            document.getElementById('gst').innerText = formatNumber(gst);
+            document.getElementById('grandTotal').innerText = formatNumber(grandTotal);
+        }
+        function printTable() {
+            window.print();
+        }
         bind();
     </script>
 </body>
