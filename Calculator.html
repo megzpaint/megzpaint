@@ -37,7 +37,10 @@
                 <div class="shadow shadow-lg p-4">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="h2 text-center py-4">Calculator</div>
+                            <div class="h2 text-center py-4">
+                                Megz Paint Limited
+                                Estimate Calculator
+                            </div>
                             <hr />
                         </div>
                         <div class="col-lg-12 pb-4">
@@ -63,7 +66,7 @@
                             </select>
                         </div>
                         <div class="col-lg-12">
-                            <div id="input_FPA_Label" class="py-2 h5">Enter (Sqm x rate)</div>
+                            <div id="input_FPA_Label" class="py-2 h5">Enter (Qty/Sqm)</div>
                             <input id="input_FPA" type="number" onkeyup="FPA_OnChange()" style="font-size:20px" class="form-control form-control-lg" />
                         </div>
                         <div class="col-lg-12">
@@ -174,25 +177,25 @@
                 select_Category.value == 'Door & Frame' ||
                 select_Category.value == 'All Interior'
             ) {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
+                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
                 result = ComputeCeillings(fpa, rate);
             }
 
             else if (select_Category.value == 'Interior Wall (2.4)') {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
+                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
                 result = ComputeWalls_2400(fpa, rate);
             }
             else if (select_Category.value == 'Interior Wall (3)') {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
+                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
                 result = ComputeWalls_3000(fpa, rate);
             }
 
             else if (select_Category.value == 'Roof (1.4)') {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
+                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
                 result = ComputeRoofs_1400(fpa, rate);
             }
             else if (select_Category.value == 'Roof (2)') {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
+                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
                 result = ComputeRoofs_2000(fpa, rate);
             }
             else if
