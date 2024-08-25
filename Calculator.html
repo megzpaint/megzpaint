@@ -53,24 +53,32 @@
                         </div>
                         <div class="col-lg-12 pb-4">
                             <select id="select_Category" type="number" onchange="FPA_OnChange()" style="font-size:20px" class="form-select form-select-lg">
+                                <option>All Exterior</option>
                                 <option>All Interior</option>
+                                <option>All Interior & Exterior</option>
+                                <option>Base</option>
+                                <option>BGC Columns</option>
+                                <option>BGC Duragroove</option>
+                                <option>Brick</option>
+                                <option>Cedar</option>
                                 <option>Ceilling</option>
+                                <option>Deck</option>
+                                <option>Door & Frame</option>
+                                <option>Exterior Wall</option>
+                                <option>Featured Wall</option>
+                                <option>High Ceiling</option>
+                                <option>High Door</option>
                                 <option>Interior Wall (2.4)</option>
                                 <option>Interior Wall (3)</option>
-                                <option>Door & Frame</option>
-                                <option>All Exterior</option>
                                 <option>Roof (1.4)</option>
                                 <option>Roof (2)</option>
+                                <option>Shutter</option>
                                 <option>Soffit</option>
                                 <option>Soffit Alfresco</option>
-                                <option>Exterior Wall</option>
-                                <option>Base</option>
+                                <option>Stairwell</option>
                                 <option>Weatherboard</option>
-                                <option>BGC Duragroove</option>
-                                <option>BGC Columns</option>
-                                <option>Cedar</option>
-                                <option>Brick</option>
-                                <option>Deck</option>
+                                <option>Water Blasting</option>
+                                <option>Whole House</option>
                             </select>
                         </div>
                         <div class="col-lg-12">
@@ -203,7 +211,15 @@
                 select_Category.value == 'All Exterior' ||
                 select_Category.value == 'Ceilling' ||
                 select_Category.value == 'Door & Frame' ||
-                select_Category.value == 'All Interior'
+                select_Category.value == 'All Interior' ||
+                select_Category.value == 'All Interior & Exterior' ||
+                select_Category.value == 'Stairwell' ||
+                select_Category.value == 'High Ceiling' ||
+                select_Category.value == 'High Door' ||
+                select_Category.value == 'Featured Wall' ||
+                select_Category.value == 'Whole House' ||
+                select_Category.value == 'Water Blasting' 
+
             ) {
                 input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
                 result = ComputeCeillings(fpa, rate);
