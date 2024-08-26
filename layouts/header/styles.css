@@ -68,8 +68,8 @@
         display: flex; /* Default to flex layout on larger screens */
         align-items: center;
         margin: 0; /* Ensure no margin is affecting layout */
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 7px;
+        padding-bottom: 7px;
         padding-left: 15px;
     }
 
@@ -79,7 +79,7 @@
             display: flex;
             text-align: center;
             float: right;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
             width: 100%;
             padding: 0; /* Reset padding */
@@ -94,7 +94,7 @@
                     text-decoration: none;
                     color: var(--first);
                     display: block;
-                    padding: 10px 35px;
+                    padding: 5px 25px;
                     cursor: pointer;
                     transition: background-color 0.3s;
                 }
