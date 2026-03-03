@@ -1,0 +1,101 @@
+<html>
+<head>
+    <title>Cancellation - Request</title>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1>Space Management - Cancellation</h1>
+        </div>
+        <input placeholder="Reservation ID" id="ReservationID" />
+        <button id="save_button">Save</button>
+        <hr />
+        <table>
+            <thead>
+                <tr>
+                    <td><b>Id</b></td>
+                    <td><b>Description</b></td>
+                    <td><b>Qty m2</b></td>
+                    <td><b>Price</b></td>
+                    <td><b>Amount</b></td>
+                    <td width="100px"><b>Action</b></td>
+                </tr>
+            </thead>
+            <tbody id="MyData">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        var ReservationID = document.getElementById('ReservationID');
+        document.getElementById('save_button').addEventListener('click', function () {
+            if (ReservationID.value.includes(' ') == true || ReservationID.value == '') {
+                alert('Please Enter your Reservation ID');
+            } else {
+                SaveReservation();
+            }
+            ReservationID.value = '';
+        });
+
+        var ReservationList = [];
+
+        function SaveReservation() {
+            var list = localStorage.getItem("ReservationList");
+            const date = new Date();
+            var today = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+            if (list) {
+                var data = JSON.parse('[' + list + ']');
+                data = '{"Id":"' + (data.length + 1) + '", "Description": "' + ReservationID.value + '", "Qty": "10", "Price": "100", "Amount": "1000"}';
+
+                var Current = list;
+                var Insert = data;
+                var NewData = Current + ',' + Insert;
+                localStorage.setItem("ReservationList", NewData);
+            } else {
+                var JSONdata = '{"Id": "' + 1 + '", "Description": "' + ReservationID.value + '", "Qty": "10", "Price": "100", "Amount": "1000"}';
+                localStorage.setItem("ReservationList", JSONdata);
+            }
+            bind();
+        }
+
+
+
+        function RequestDeletion(id) {
+            if (confirm('Are you sure you want to delete id ' + id + '?')) {
+                var list = localStorage.getItem("ReservationList");
+                var data = JSON.parse('[' + list + ']');
+
+                var NewData = '';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Id != id) {
+                        NewData += '{"Id":"' + data[i].Id + '", "Description": "' + data[i].Description + '", "Qty": "' + data[i].Qty + '", "Price": "' + data[i].Price + '", "Amount": "' + data[i].Amount + '"},';
+                    }
+                }
+                NewData = NewData.slice(0, -1);
+                localStorage.setItem("ReservationList", NewData);
+                bind();
+            }
+        }
+
+        function bind() {
+            var list = localStorage.getItem("ReservationList");
+            var data = JSON.parse('[' + list + ']');
+            var row = '';
+            for (var i = data.length - 1; i >= 0; i--) {
+                row += '<tr>';
+                row += '<td>' + data[i].Id + '</td>';
+                row += '<td>' + data[i].Description + '</td>';
+                row += '<td>' + data[i].Qty + '</td>';
+                row += '<td>' + data[i].Price + '</td>';
+                row += '<td>' + data[i].Amount + '</td>';
+                row += '<td>';
+                row += '<a onclick="RequestDeletion(' + data[i].Id + ')" class="btn delete-btn">Delete</a></td>';
+                row += '</tr>';
+            }
+            document.getElementById('MyData').innerHTML = row;
+        }
+
+        bind();
+    </script>
+</body>
+</html>

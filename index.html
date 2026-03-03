@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="light">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>MEGZ PAINT LTD. — Commercial & Residential Painting, New Zealand</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MEGZ PAINT Limited — expert commercial and residential interior & exterior painting services in New Zealand. 20+ years experience.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="assets/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
     <link href="assets/bootstrap5/bootstrap.min.css" rel="stylesheet" />
     <link href="layouts/header/styles.css" rel="stylesheet" />
@@ -14,52 +17,59 @@
     <link href="layouts/service/styles.css" rel="stylesheet" />
     <link href="layouts/blog/styles.css" rel="stylesheet" />
     <link href="assets/aos-animations/styles.css" rel="stylesheet" />
-    <style>
-        .img-cover {
-            width: 100%;
-            height: 200px; /* Set a fixed height or adjust as needed */
-            object-fit: cover; /* Cover the area while maintaining aspect ratio */
-            display: block; /* Remove any default inline spacing/margins */
-        }
-    </style>
+    <script>
+        // Apply saved theme before paint to avoid flash
+        (function () {
+            var t = localStorage.getItem('megz-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
 </head>
-<body style="display: none">
+<body style="display:none">
 
-    <div id="top-nav">
-        <div id="nav-list">
-            <a id="close-nav">
-                <i class="bi bi-x"></i>
-            </a>
-            <ul>
-                <li><a href="#Home" onclick="checkNav()">Home</a></li>
-                <li><a href="#About" onclick="checkNav()">About us</a></li>
-                <li><a href="#Service" onclick="checkNav()">Services</a></li>
-                <li><a href="#Blog" onclick="checkNav()">Blogs</a></li>
-                <li><a href="#Contact" onclick="checkNav()">Contacts</a></li>
-            </ul>
-        </div>
-        <a id="open-nav">
-            <i class="bi bi-list"></i>
-        </a>
+    <!-- IMAGE MODAL -->
+    <div id="img-modal">
+        <span id="img-modal-close"><i class="bi bi-x-lg"></i></span>
+        <img id="img-modal-img" src="" alt="" />
+        <div id="img-modal-caption"></div>
     </div>
 
-
+    <!-- NAV -->
+    <div id="top-nav">
+        <a class="nav-logo" href="#Home">MEGZ <span>PAINT</span></a>
+        <div id="nav-list">
+            <ul>
+                <li><a href="#Home" onclick="checkNav()">Home</a></li>
+                <li><a href="#About" onclick="checkNav()">About</a></li>
+                <li><a href="#Service" onclick="checkNav()">Services</a></li>
+                <li><a href="#Blog" onclick="checkNav()">Blog</a></li>
+                <li><a href="#Contact" onclick="checkNav()">Contact</a></li>
+            </ul>
+            <button id="theme-toggle" aria-label="Toggle dark mode">
+                <i class="bi bi-moon-fill"></i> Dark
+            </button>
+        </div>
+        <a id="open-nav"><i class="bi bi-list"></i></a>
+    </div>
 
     <main>
+        <!-- ===== HOME ===== -->
         <section id="Home">
             <div class="image-container">
-                <img class="home-img-landing" src="assets/images/home/image1.jpg" />
-                <img class="home-img-landing" src="assets/images/home/image2.jpg" />
-                <img class="home-img-landing" src="assets/images/home/image3.jpg" />
-                <img class="home-img-landing" src="assets/images/home/image4.jpg" />
+                <img class="home-img-landing" src="assets/images/home/image1.jpg" alt="Painting project 1" />
+                <img class="home-img-landing" src="assets/images/home/image2.jpg" alt="Painting project 2" />
+                <img class="home-img-landing" src="assets/images/home/image3.jpg" alt="Painting project 3" />
+                <img class="home-img-landing" src="assets/images/home/image4.jpg" alt="Painting project 4" />
                 <div class="home-text">
+                    <div class="home-text-eyebrow">New Zealand's Trusted Painters</div>
                     <div class="home-text-size">MEGZ PAINT LTD.</div>
-                    <div class="home-text-size">Commercial and Residential <br />Interior and Exterior</div>
+                    <div class="home-text-size">Commercial &amp; Residential<br />Interior &amp; Exterior</div>
+                    <div class="home-divider"></div>
                     <div class="home-text-paragraph">
-                        <p>Welcome to MEGZ PAINT Limited, where we bring color and vibrancy to your space with our expert painting services. </p>
+                        <p>Welcome to MEGZ PAINT Limited, where we bring colour and vibrancy to your space with our expert painting services.</p>
                     </div>
-                    <div style="margin-top: 60px;">
-                        <a href="#Contact" class="home-enquire-now">ENQUIRE NOW</a>
+                    <div>
+                        <a href="#Contact" class="home-enquire-now">Enquire Now</a>
                     </div>
                     <div class="img-dot">
                         <span data-id="0"></span>
@@ -68,377 +78,345 @@
                         <span data-id="3"></span>
                     </div>
                 </div>
+                <div class="scroll-indicator">
+                    <div class="scroll-line"></div>
+                    <span>Scroll</span>
+                </div>
             </div>
-            <div class="container py-5" data-aos="fade-up" data-aos-duration="1000">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p class="home-paragraph-contaier">
-                            At MEGZ PAINT Limited, we bring color and clarity to your world. With over a decade of experience in both commercial and residential painting, a portfolio of 100+ successful projects, and a diverse client base of 100+ satisfied customers, our skilled team is dedicated to delivering outstanding results for every interior and exterior painting job. Explore how we can enhance your space with our expertise.
-                        </p>
-                    </div>
-                    <div class="col-lg-10 m-auto">
-                        <div class="row">
-                            <div class="col-lg-4 pt-3 text-center">
-                                <div class="shadow shadow-sm p-4">
-                                    <div>
-                                        <a class="home-icon">
-                                            <i class="bi bi-people-fill"></i>
-                                        </a>
-                                    </div>
-                                    <div class="fw-bold h4">100+</div>
-                                    <div>Clients</div>
-                                </div>
+
+            <div class="home-stats-section" data-aos="fade-up" data-aos-duration="900">
+                <div class="container">
+                    <p class="home-paragraph-contaier">
+                        At MEGZ PAINT Limited, we bring colour and clarity to your world. With over 20 years of experience in both commercial and residential painting, a portfolio of 100+ successful projects, and a diverse client base of satisfied customers, our skilled team is dedicated to delivering outstanding results for every interior and exterior painting job.
+                    </p>
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="stat-card">
+                                <i class="bi bi-people-fill home-icon"></i>
+                                <div class="stat-number">100+</div>
+                                <div class="stat-label">Happy Clients</div>
                             </div>
-                            <div class="col-lg-4 pt-3 text-center">
-                                <div class="shadow shadow-sm p-4">
-                                    <div>
-                                        <a class="home-icon">
-                                            <i class="bi bi-house-door-fill"></i>
-                                        </a>
-                                    </div>
-                                    <div class="fw-bold h4">100+</div>
-                                    <div>Projects</div>
-                                </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="stat-card">
+                                <i class="bi bi-house-door-fill home-icon"></i>
+                                <div class="stat-number">100+</div>
+                                <div class="stat-label">Projects Completed</div>
                             </div>
-                            <div class="col-lg-4 pt-3 text-center">
-                                <div class="shadow shadow-sm p-4">
-                                    <div>
-                                        <a class="home-icon">
-                                            <i class="bi bi-trophy-fill"></i>
-                                        </a>
-                                    </div>
-                                    <div class="fw-bold h4">20+</div>
-                                    <div>Years Experience</div>
-                                </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="stat-card">
+                                <i class="bi bi-trophy-fill home-icon"></i>
+                                <div class="stat-number">20+</div>
+                                <div class="stat-label">Years Experience</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <section id="About" class="about-us" data-aos="fade-up" data-aos-duration="1000">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="about-text-title">About Us</h2>
-                        <p class="about-paragraph-contaier">
-                            Megz Paint Limited brings over 20 years of experience in the painting industry to New Zealand.  Our team has honed their skills and expertise overseas, bringing a wealth of knowledge and international standards to our local projects.  We are fully compliant with New Zealand building codes and regulations, ensuring that all our work is completed to the highest standards of quality and safety.
 
-                            Whether you're looking to refresh your home, revitalize your commercial space, or undertake a large-scale project, Megz Paint Limited is your reliable partner for exceptional interior and exterior painting solutions.  We are dedicated to delivering beautiful and durable results that exceed your expectations.
+        <!-- ===== ABOUT ===== -->
+        <section id="About" class="about-us" data-aos="fade-up" data-aos-duration="900">
+            <div class="container">
+                <div class="row align-items-center mb-5 pb-3">
+                    <div class="col-lg-7" data-aos="fade-right" data-aos-duration="900">
+                        <div class="section-label">About Us</div>
+                        <h2 class="about-text-title">Painting Excellence,<br />New Zealand–Wide</h2>
+                        <p class="about-paragraph-contaier">
+                            Megz Paint Limited brings over 20 years of experience in the painting industry to New Zealand. Our team has honed their skills and expertise overseas, bringing a wealth of knowledge and international standards to our local projects. We are fully compliant with New Zealand building codes and regulations, ensuring all our work is completed to the highest standards of quality and safety.
+                        </p>
+                        <p class="about-paragraph-contaier">
+                            Whether you're looking to refresh your home, revitalise your commercial space, or undertake a large-scale project, Megz Paint Limited is your reliable partner for exceptional interior and exterior painting solutions.
                         </p>
                     </div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-5 mt-4 mt-lg-0" data-aos="fade-left" data-aos-duration="900">
+                        <div class="about-image-frame">
+                            <img src="assets/images/about/image0.jpg" alt="Our painting work" data-modal />
+                        </div>
+                    </div>
+                </div>
 
-                        <h3 class="about-text-title">Our Mission</h3>
+                <div class="row mb-5">
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">
+                        <h3 class="about-text-title section-h3">Our Mission</h3>
                         <p class="about-paragraph-contaier">
                             To deliver exceptional painting services that enhance the beauty and value of our clients' spaces, while upholding the highest standards of quality, safety, and professionalism.
                         </p>
-                        <h3 class="about-text-title">Our Vission</h3>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900">
+                        <h3 class="about-text-title section-h3">Our Vision</h3>
                         <p class="about-paragraph-contaier">
                             To be the leading provider of painting solutions in New Zealand, renowned for our commitment to customer satisfaction, innovation, and sustainable practices.
                         </p>
-
-                    </div>
-                    <div class="col-lg-5">
-                        <img class="img-fluid" src="assets/images/about/image3.jpg" />
                     </div>
                 </div>
 
+                <div data-aos="fade-up" data-aos-duration="900">
+                    <div class="section-label">Meet the Team</div>
+                    <h3 class="about-text-title" style="margin-bottom: 36px;">The People Behind the Brush</h3>
+                    <div class="team">
 
+                        <div class="team-member">
+                            <img src="assets/images/about/image1.jpg" alt="Alex Meguillo" data-modal />
+                            <h4>Alex Meguillo</h4>
+                            <p class="team-role">Director &amp; Lead Painter</p>
+                            <p class="team-bio">Alex has over 20 years of experience in the painting industry and is dedicated to delivering high-quality results for every project.</p>
+                        </div>
 
+                        <div class="team-member">
+                            <img src="assets/images/about/image3.jpg" alt="Christopher Enario" data-modal />
+                            <h4>Christopher Enario</h4>
+                            <p class="team-role">Lead Painter</p>
+                            <p class="team-bio">Christopher brings expertise and dedication to every job, leading our painting crews with a keen eye for quality and detail.</p>
+                        </div>
 
+                        <div class="team-member">
+                            <img src="assets/images/about/image2.jpg" alt="Irish Balona" data-modal />
+                            <h4>Irish Balona</h4>
+                            <p class="team-role">Admin &amp; Painter</p>
+                            <p class="team-bio">Irish plays a crucial role in supporting our team of skilled painters, ensuring that every job is completed with precision and care.</p>
+                        </div>
 
-                <h3 class="about-text-title">Our Team</h3>
-                <div class="team" data-aos="fade-up" data-aos-duration="1000">
-                    <div class="team-member">
-                        <img src="assets/images/about/image1.jpg" alt="Alex Meguillo">
-                        <h4>Alex Meguillo</h4>
-                        <p>CEO & Lead Painter</p>
-                        <p>Alex has over 20 years of experience in the painting industry and is dedicated to delivering high-quality results for every project.</p>
+                        <div class="team-member">
+                            <img src="assets/images/about/image5.jpg" alt="Alan Meguillo" data-modal />
+                            <h4>Alan Meguillo</h4>
+                            <p class="team-role">Painter</p>
+                            <p class="team-bio">Alan combines technical skill with a passion for craft, ensuring every surface is prepared and painted to the highest standard.</p>
+                        </div>
+
+                        <div class="team-member">
+                            <img src="assets/images/about/image4.jpg" alt="Jonathan Enario" data-modal />
+                            <h4>Jonathan Enario</h4>
+                            <p class="team-role">Painter</p>
+                            <p class="team-bio">Jonathan is a skilled painter committed to delivering flawless results on every residential and commercial project he undertakes.</p>
+                        </div>
+
                     </div>
-                    <div class="team-member">
-                        <img src="assets/images/about/image2.jpg" alt="Irish Balona">
-                        <h4>Irish Balona</h4>
-                        <p>Executive Assistant & Painter</p>
-                        <p>Irish She plays a crucial role in supporting our team of skilled painters, ensuring that every job is completed with precision and care.</p>
-                    </div>
-                    <!-- Add more team members as needed -->
                 </div>
             </div>
         </section>
 
-
-        <section id="Service" data-aos="fade-up" data-aos-duration="1000">
+        <!-- ===== SERVICES ===== -->
+        <section id="Service" data-aos="fade-up" data-aos-duration="900">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 pb-5">
-                        <h2 class="about-text-title">What Can We Do</h2>
+                <div class="text-center mb-5">
+                    <div class="section-label">What We Do</div>
+                    <h2 class="about-text-title">Our Services</h2>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="0">
+                        <div class="service-icon-card">
+                            <img src="assets/images/service/image1.png" alt="Interior & Exterior Painting" data-modal />
+                            <span class="fw-bold">Interior &amp; Exterior Painting</span>
+                            <div class="pt-2">Revitalise your home with our professional painting services.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-icon-card">
+                            <img src="assets/images/service/image2.png" alt="Roof Painting" data-modal />
+                            <span class="fw-bold">Roof Painting</span>
+                            <div class="pt-2">Protect and beautify your home with expert roof painting.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-icon-card">
+                            <img src="assets/images/service/image3.png" alt="Fence & Deck Painting" data-modal />
+                            <span class="fw-bold">Fence &amp; Deck Painting</span>
+                            <div class="pt-2">Enhance curb appeal with durable fence &amp; deck finishing.</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-icon-card">
+                            <img src="assets/images/service/image4.png" alt="Water Blasting" data-modal />
+                            <span class="fw-bold">Water Blasting</span>
+                            <div class="pt-2">Deep clean surfaces instantly with professional water blasting.</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-3 pt-2">
-                        <div class="card" style="min-height: 400px">
-                            <div class="card-body">
-                                <img class="img-fluid p-3" src="assets/images/service/image1.png" />
-                                <div class="text-center">
-                                    <span class="fw-bold ">Interior & Exterior Painting</span>
-                                    <div class="pt-2">
-                                        Revitalize Your Home with Our Professional Interior & Exterior Painting Services.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-3 pt-2">
-                        <div class="card" style="min-height:400px">
-                            <div class="card-body">
-                                <img class="img-fluid p-3" src="assets/images/service/image2.png" />
-                                <div class="text-center">
-                                    <span class="fw-bold ">Roof Painting</span>
-                                    <div class="pt-2">
-                                        Protect and Beautify Your Home with Our Expert Roof Painting Services.
-                                    </div>
-                                </div>
-                            </div>
+                <div data-aos="fade-up" data-aos-duration="900">
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/residential.jpg" alt="Residential Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Residential Painting</h3>
+                            <p>Our residential painting services are tailored to meet the unique needs of your home. We offer both interior and exterior painting, using high-quality paints that provide a long-lasting finish and vibrant colour. Whether you need a single room or your entire house painted, our skilled team ensures a smooth and flawless finish.</p>
                         </div>
                     </div>
-                    <div class="col-lg-3 pt-2">
-                        <div class="card" style="min-height:400px">
-                            <div class="card-body">
-                                <img class="img-fluid p-3" src="assets/images/service/image3.png" />
-                                <div class="text-center">
-                                    <span class="fw-bold ">Fence & Deck Painting</span>
-                                    <div class="pt-2">
-                                        Enhance Curb Appeal with Durable and Stylish Fence & Deck Painting.
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/commercial.jpg" alt="Commercial Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Commercial Painting</h3>
+                            <p>We understand the importance of maintaining a professional appearance for your business. Our commercial painting services include interior and exterior painting for offices, retail spaces, and industrial facilities. We work around your schedule to minimise disruption to your operations, delivering exceptional results every time.</p>
                         </div>
                     </div>
-                    <div class="col-lg-3 pt-2">
-                        <div class="card" style="min-height:400px">
-                            <div class="card-body">
-                                <img class="img-fluid p-3" src="assets/images/service/image4.png" />
-                                <div class="text-center">
-                                    <span class="fw-bold ">Water Blasting</span>
-                                    <div class="pt-2">
-                                        Deep Clean Surfaces Instantly with Professional Water Blasting.
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/interior.jpg" alt="Interior Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Interior Painting</h3>
+                            <p>Transform your indoor spaces with our expert interior painting services. We pay close attention to detail, ensuring all surfaces are properly prepared and painted to achieve a flawless look. From colour consultation to the final coat, we are dedicated to enhancing the beauty and comfort of your home or business.</p>
                         </div>
                     </div>
-                    <div class="col-lg-12 pt-5">
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/residential.jpg" alt="Residential Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Residential Painting</h3>
-                                <p>Our residential painting services are tailored to meet the unique needs of your home. We offer both interior and exterior painting, using high-quality paints that provide a long-lasting finish and vibrant color. Whether you need a single room or your entire house painted, our skilled team ensures a smooth and flawless finish.</p>
-                            </div>
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/exterior.jpg" alt="Exterior Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Exterior Painting</h3>
+                            <p>Protect and beautify the exterior of your property with our comprehensive exterior painting services. We use durable, weather-resistant paints and coatings to withstand the elements and keep your building looking great for years to come.</p>
                         </div>
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/commercial.jpg" alt="Commercial Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Commercial Painting</h3>
-                                <p>We understand the importance of maintaining a professional appearance for your business. Our commercial painting services include interior and exterior painting for offices, retail spaces, and industrial facilities. We work around your schedule to minimize disruption to your operations, delivering exceptional results every time.</p>
-                            </div>
+                    </div>
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/roof.jpg" alt="Roof Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Roof Painting</h3>
+                            <p>Our roof painting services help extend the life of your roof while enhancing its appearance. We use high-quality, weather-resistant paints that protect against UV rays and moisture, providing a durable and attractive finish.</p>
                         </div>
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/interior.jpg" alt="Interior Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Interior Painting</h3>
-                                <p>Transform your indoor spaces with our expert interior painting services. We pay close attention to detail, ensuring that all surfaces are properly prepared and painted to achieve a flawless look. From color consultation to the final coat, we are dedicated to enhancing the beauty and comfort of your home or business.</p>
-                            </div>
+                    </div>
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/deck.png" alt="Deck Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Deck Painting</h3>
+                            <p>Our deck painting services are designed to protect and beautify your outdoor living space. We use premium paints and stains that withstand foot traffic, weather, and UV exposure, ensuring your deck looks great and lasts longer.</p>
                         </div>
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/exterior.jpg" alt="Exterior Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Exterior Painting</h3>
-                                <p>Protect and beautify the exterior of your property with our comprehensive exterior painting services. We use durable, weather-resistant paints and coatings to withstand the elements and keep your building looking great for years to come. Our team takes care of every aspect, from surface preparation to cleanup, ensuring a hassle-free experience.</p>
-                            </div>
-                        </div>
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/roof.jpg" alt="Roof Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Roof Painting</h3>
-                                <p>Our roof painting services help extend the life of your roof while enhancing its appearance. We use high-quality, weather-resistant paints that protect against the elements, including UV rays and moisture. Our skilled team ensures thorough preparation and application, providing a durable and attractive finish.</p>
-                            </div>
-                        </div>
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/deck.png" alt="Deck Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Deck Painting</h3>
-                                <p>Our deck painting services are designed to protect and beautify your outdoor living space. We use premium paints and stains that withstand foot traffic, weather, and UV exposure, ensuring your deck looks great and lasts longer. From cleaning and prepping to the final coat, we handle every detail with care.</p>
-                            </div>
-                        </div>
-                        <div class="row py-1">
-                            <div class="col-lg-3 pb-3">
-                                <img class="img-cover" src="assets/images/service/fence.png" alt="Fence Painting">
-                            </div>
-                            <div class="col-lg-9">
-                                <h3>Fence Painting</h3>
-                                <p>Enhance the curb appeal and durability of your fence with our fence painting services. We use high-quality, weather-resistant paints that protect against the elements and provide a fresh, vibrant look. Our team ensures a thorough and even application, giving your fence a new lease on life.</p>
-                            </div>
+                    </div>
+                    <div class="service-detail-row">
+                        <img class="service-detail-img" src="assets/images/service/fence.jpg" alt="Fence Painting" data-modal>
+                        <div class="service-detail-content">
+                            <h3>Fence Painting</h3>
+                            <p>Enhance the curb appeal and durability of your fence with our fence painting services. We use high-quality, weather-resistant paints that protect against the elements and provide a fresh, vibrant look.</p>
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
-        <section id="Blog" data-aos="fade-up" data-aos-duration="1000">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12  pb-5">
-                        <h2 class="about-text-title">Our Blogs</h2>
-                        <p class="description">To read more of our latest blogs, visit us on Facebook!</p>
-                    </div>
-                    <div class="col-lg-12">
 
-                        <div id="image-container" class="image-container"></div>
+        <!-- ===== BLOG ===== -->
+        <section id="Blog" data-aos="fade-up" data-aos-duration="900">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <div class="section-label">Before &amp; After</div>
+                    <h2 class="about-text-title">Our Work</h2>
+                    <p class="description">See the transformation — visit us on Facebook for more project showcases!</p>
+                </div>
+                <div id="image-container" class="image-container mb-5"></div>
+
+
+
+
+
+                <!-- ===== FACEBOOK SECTION ===== -->
+                <div class="mt-5 pt-3" id="facebook-section">
+                    <div class="text-center mb-4">
+                        <div class="section-label">Social Media</div>
+                        <h3 class="about-text-title" style="font-size:1.6rem;">Follow Us on Facebook</h3>
+                        <p style="color:var(--text-muted);max-width:500px;margin:0 auto;">Stay updated with our latest projects, promotions and news.</p>
                     </div>
-                    <div class="col-lg-12  text-center pt-4">
-                        <a href="https://www.facebook.com/profile.php?id=61556662167270" class="cta-button" target="_blank">
+
+                    <div class="text-center">
+                        <a href="https://www.facebook.com/profile.php?id=61556662167270" class="cta-button" style="background-color: #157347!important" target="_blank">
+                            <i class="bi bi-facebook"></i>
                             <span class="cta-text">Visit Our Facebook Page</span>
                         </a>
-
                     </div>
+
                 </div>
             </div>
         </section>
 
-        <section id="Contact" data-aos="fade-up" data-aos-duration="1000">
+
+
+
+
+
+        <!-- ===== CONTACT ===== -->
+        <section id="Contact" data-aos="fade-up" data-aos-duration="900">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12  pb-5">
-                        <h2 class="about-text-title">Contact Us</h2>
+                <div class="text-center mb-5">
+                    <div class="section-label">Get in Touch</div>
+                    <h2 class="about-text-title">Contact Us</h2>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="contact-form-wrap">
+                            <input id="Text_name" name="Text_name" placeholder="Your Name" type="text" />
+                            <input id="Text_email" name="Text_email" placeholder="Email Address" type="email" />
+                            <input id="Text_phone" name="Text_phone" placeholder="Phone Number" type="text" />
+                            <textarea id="Text_message" placeholder="Your Message"></textarea>
+                            <a onclick="sendEmail()" class="contact-submit">Send Message</a>
+                        </div>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div>
-                                    <input id="Text_name" name="Text_name" class="form-control" placeholder="Name" type="text" />
-                                </div>
-                                <div>
-                                    <input id="Text_email" name="Text_email" class="form-control" placeholder="E-mail" type="email" />
-                                </div>
-                                <div>
-                                    <input id="Text_phone" name="Text_phone" class="form-control" placeholder="Phone Number" type="text" />
-                                </div>
-                                <div>
-                                    <textarea id="Text_message" class="form-control" placeholder="Message"></textarea>
-                                </div>
-                                <div class="pt-2">
-                                    <a onclick="sendEmail()" class="contact-submit">SUBMIT</a>
-                                </div>
+                    <div class="col-lg-6">
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                            <div>
+                                <b>Office Address</b>
+                                <div>27 Pollen Crescent, Melville, Hamilton 3206, New Zealand</div>
                             </div>
-                            <div class="col-lg-6 pt-3">
-                                <div>
-                                    <div class="shadow shadow-sm p-3">
-                                        <div class="row">
-                                            <div class="col-2 text-center">
-                                                <i class="h1 bi bi-geo-alt-fill"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <b>
-                                                    Office Address
-                                                </b>
-                                                <div>27 Pollen Crescent. Melville, Hamilton 3206, New Zealand</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="shadow shadow-sm p-3">
-                                        <div class="row">
-                                            <div class="col-2 text-center">
-                                                <i class="h1 bi bi-telephone-fill"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <b>
-                                                    Call Us
-                                                </b>
-                                                <div>+64 22 632 8013</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="shadow shadow-sm p-3">
-                                        <div class="row">
-                                            <div class="col-2 text-center">
-                                                <i class="h1 bi bi-envelope-fill"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <b>
-                                                    Email Us
-                                                </b>
-                                                <div>admin@megzpaintlimited.co.nz</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                            <div>
+                                <b>Call Us</b>
+                                <div>+64 22 632 8013</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                            <div>
+                                <b>Email Us</b>
+                                <div>admin@megzpaintlimited.co.nz</div>
+                            </div>
+                        </div>
+                        <div class="contact-info-card">
+                            <div class="contact-icon"><i class="bi bi-facebook"></i></div>
+                            <div>
+                                <b>Follow Us</b>
+                                <div><a href="https://www.facebook.com/profile.php?id=61556662167270" target="_blank" style="color:var(--accent);text-decoration:none;">MEGZ PAINT Limited on Facebook</a></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                      
-                        <div class="pt-5 pb-3">
-                            <hr />
-                            <h2 class="about-text-title">Google Map Direction</h2>
-                        </div>
-                        <div class="pt-2">
-                            <iframe src="http://maps.google.com/maps?q=27 Pollen Crescent. Melville, Hamilton 3206, New Zealand&z=14&output=embed" style="width:100%;min-height:320px;border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                        <br />
-                    </div>
+                </div>
+
+                <div class="mt-5 pt-3">
+                    <h3 class="map-section-title">Find Us on the Map</h3>
+                    <iframe src="https://maps.google.com/maps?q=20+Rachel+Place+Dinsdale+Hamilton+3204+New+Zealand&z=14&output=embed"
+                            style="width:100%;min-height:360px;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
             </div>
         </section>
 
+        <!-- ===== FOOTER ===== -->
         <footer>
-            <div class="container" data-aos="fade-up" data-aos-duration="1000">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="py-2">
-                            <b>CONTACT US</b>
-                        </div>
-                        <div><i class="bi bi-telephone-fill"></i>  +64 22 632 8013</div>
-                        <div><i class="bi bi-geo-alt-fill"></i> 27 Pollen Crescent. Melville, Hamilton 3206, New Zealand</div>
-
-
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="footer-logo">MEGZ <span>PAINT</span> LTD.</div>
+                        <p class="footer-tagline">Bringing colour and vibrancy to New Zealand homes and businesses for over 20 years.</p>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="py-2">
-                            <b>SOCIAL MEDIA</b>
+                    <div class="col-lg-3">
+                        <div class="footer-heading">Contact</div>
+                        <div class="footer-item"><i class="bi bi-telephone-fill"></i><span>+64 22 632 8013</span></div>
+                        <div class="footer-item"><i class="bi bi-envelope-fill"></i><span>admin@megzpaintlimited.co.nz</span></div>
+                        <div class="footer-item"><i class="bi bi-geo-alt-fill"></i><span>20 Rachel Place, Dinsdale Hamilton 3204</span></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer-heading">Follow Us</div>
+                        <div class="footer-item">
+                            <i class="bi bi-facebook"></i>
+                            <a href="https://www.facebook.com/profile.php?id=61556662167270" target="_blank">MEGZ PAINT Limited</a>
                         </div>
-                        <div><i class="bi bi-facebook"></i>  <a style="text-decoration:none;color:white" href="https://www.facebook.com/profile.php?id=61556662167270">MEGZ PAINT Limited </a></div>
-                        <div><i class="bi bi-envelope-fill"></i>  admin@megzpaintlimited.co.nz</div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="py-2"></div>
-                        <p>&copy; 2024 MEGZ PAINT LTD. All rights reserved.</p>
-                    </div>
-                </div>
-
+                <hr class="footer-divider" />
+                <p class="footer-copyright">&copy; 2024 MEGZ PAINT LTD. All rights reserved.</p>
             </div>
         </footer>
     </main>
+
     <script src="layouts/home/scripts.js"></script>
     <script src="layouts/header/scripts.js"></script>
     <script src="assets/bootstrap5/jquery-3.5.1.min.js"></script>
@@ -448,6 +426,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="layouts/contact/scripts.js"></script>
     <script>
-        AOS.init();
+        AOS.init({ once: true, offset: 60 });
     </script>
+</body>
 </html>

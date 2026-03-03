@@ -1,67 +1,135 @@
-﻿
-/* About Us Section */
+/* ===== ABOUT ===== */
 .about-us {
-    background: #fff;
-    padding: 40px 0;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    background: var(--bg-alt);
+    padding: 120px 0;
+    transition: background 0.35s ease;
 }
 
-    .about-us h2 {
-        font-size: 2em;
-        margin-bottom: 20px;
-    }
+.section-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding: 6px 16px;
+    background: rgba(45,106,79,0.10);
+    border-radius: 100px;
+}
 
-    .about-us h3 {
-        font-size: 1.5em;
-        margin-top: 20px;
-    }
+.about-text-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    line-height: 1.15;
+    transition: color 0.35s ease;
+}
+.about-text-title.section-h3 {
+    font-size: 1.5rem;
+    margin-top: 36px;
+    margin-bottom: 12px;
+}
 
-    .about-us p {
-        line-height: 1.6;
-    }
+.about-paragraph-contaier {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
 
-/* Team Section */
+.about-image-frame {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.about-image-frame img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-lg);
+    cursor: zoom-in;
+    transition: transform 0.4s ease;
+}
+.about-image-frame img:hover { transform: scale(1.02); }
+.about-image-frame::after {
+    content: '';
+    position: absolute;
+    inset: 12px -12px -12px 12px;
+    border: 2px solid var(--accent-light);
+    border-radius: var(--radius-lg);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Team */
 .team {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 16px;
 }
 
 .team-member {
-    background: #eaeaea;
-    padding: 20px;
-    margin: 10px;
+    background: var(--card-bg);
+    padding: 32px 22px;
     text-align: center;
-    border-radius: 8px;
-    width: 280px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition), box-shadow var(--transition), background 0.35s ease;
+    border: 1px solid var(--border);
+}
+.team-member:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
 }
 
-    .team-member img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+.team-member img {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 16px;
+    border: 3px solid var(--accent-light);
+    padding: 2px;
+    cursor: zoom-in;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.team-member img:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 24px rgba(45,106,79,0.3);
+}
 
-    .team-member h4 {
-        margin: 10px 0 5px;
-        font-size: 1.2em;
-    }
+.team-member h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--text-main);
+    transition: color 0.35s ease;
+}
 
-    .team-member p {
-        margin: 0;
-    }
+.team-member .team-role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
 
+.team-member .team-bio {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    margin: 0;
+}
 
-
-@media screen and (max-width: 992px) {
-    .about-text-title {
-        text-align: center;
-    }
-
-    .about-paragraph-contaier {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+@media (max-width: 992px) {
+    .about-us { padding: 80px 0; }
+    .about-text-title { text-align: center; }
+    .about-paragraph-contaier { padding-left: 12px; padding-right: 12px; }
+    .about-image-frame::after { display: none; }
 }

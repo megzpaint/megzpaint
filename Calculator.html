@@ -1,385 +1,876 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area Calculator</title>
-    <link href="assets/bootstrap5/bootstrap.min.css" rel="stylesheet" />
+    <title>Estimate Calculator — MEGZ PAINT LTD.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="assets/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <script>
+        (function() {
+            var t = localStorage.getItem('megz-theme');
+            if (t) document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
     <style>
+        :root {
+            --accent: #2d6a4f;
+            --accent-light: #52b788;
+            --accent-gold: #c9a84c;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'DM Sans', sans-serif;
+            --radius: 8px;
+            --radius-lg: 14px;
+            --bg: #f8f6f2;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-table-head: #f0ede8;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --border: #e4e0d9;
+            --shadow: 0 4px 24px rgba(0,0,0,0.07);
+            --shadow-lg: 0 12px 48px rgba(0,0,0,0.11);
+            --tr-hover: #f5f3ef;
+            --delete-bg: #fff0f0;
+            --delete-color: #c0392b;
+            --delete-hover: #c0392b;
+            --tfoot-bg: #f0ede8;
+        }
+        [data-theme="dark"] {
+            --bg: #111111;
+            --bg-card: #1e1e1e;
+            --bg-input: #2a2a2a;
+            --bg-table-head: #252525;
+            --text: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --border: #333333;
+            --shadow: 0 4px 24px rgba(0,0,0,0.35);
+            --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
+            --tr-hover: #252525;
+            --delete-bg: #2a1a1a;
+            --delete-color: #e07070;
+            --delete-hover: #c0392b;
+            --tfoot-bg: #252525;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+
+        /* TOP BAR */
+        .top-bar {
+            background: #111;
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width:100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+        .top-bar-logo {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 1rem;
+            color: #fff;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .top-bar-logo span { color: var(--accent-gold); }
+        .top-bar-actions { display: flex; align-items: center; gap: 10px; }
+        .top-bar-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .top-bar-link:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        #theme-toggle {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 50px;
+            padding: 6px 14px;
+            cursor: pointer;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.78rem;
+            font-family: var(--font-body);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        #theme-toggle:hover { background: rgba(255,255,255,0.18); }
+
+        /* LAYOUT */
+        .calc-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 0;
+            min-height: calc(100vh - 160px);
+            margin-top:80px;
+        }
+
+        /* LEFT PANEL */
+        .left-panel {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            transition: background 0.3s, border-color 0.3s;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        .panel-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .panel-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .panel-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.2;
+            transition: color 0.3s;
+        }
+        .panel-title span { color: var(--accent-gold); }
+
+        /* Form fields */
+        .field-group { display: flex; flex-direction: column; gap: 6px; }
+        .field-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .field-select, .field-input {
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 12px 14px;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        .field-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b6b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+        .field-select:focus, .field-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45,106,79,0.15);
+        }
+        .field-input::placeholder { color: var(--text-muted); opacity: 0.55; }
+
+        /* Amount display */
+        .amount-display {
+            background: linear-gradient(135deg, var(--accent) 0%, #1d4f38 100%);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .amount-display::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+        }
+        .amount-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 6px;
+        }
+        .amount-value {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: -0.02em;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+        .amount-value.has-value { color: var(--accent-gold); }
+
+        /* Save button */
+        .save-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            padding: 14px;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .save-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(45,106,79,0.35);
+        }
+        .save-btn:active { transform: translateY(0); }
+
+        /* RIGHT PANEL */
+        .right-panel {
+            padding: 36px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            background: var(--bg);
+            transition: background 0.3s;
+        }
+        .right-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .right-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            transition: color 0.3s;
+        }
+        .right-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+        /* TABLE */
+        .table-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .table-responsive { overflow-x: auto; }
+        .calc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .calc-table thead tr {
+            background: var(--bg-table-head);
+            transition: background 0.3s;
+        }
+        .calc-table thead th {
+            padding: 14px 18px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: left;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--border);
+        }
+        .calc-table thead th.tr { text-align: right; }
+        .calc-table thead th.tc { text-align: center; }
+        .calc-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+            animation: rowIn 0.2s ease;
+        }
+        .calc-table tbody tr:last-child { border-bottom: none; }
+        .calc-table tbody tr:hover { background: var(--tr-hover); }
+        .calc-table tbody td {
+            padding: 13px 18px;
+            color: var(--text);
+            transition: color 0.3s;
+        }
+        .calc-table tbody td.tr { text-align: right; font-variant-numeric: tabular-nums; }
+        .calc-table tbody td.tc { text-align: center; }
+        .row-id {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-table-head);
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .amount-cell {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--accent) !important;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 12px; display: block; opacity: 0.35; }
+        .empty-state p { font-size: 0.9rem; opacity: 0.65; line-height: 1.5; }
+        .delete-btn {
+            background: var(--delete-bg);
+            color: var(--delete-color);
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .delete-btn:hover { background: var(--delete-hover); color: #fff; }
+
+        /* Tfoot */
+        .calc-table tfoot tr { background: var(--tfoot-bg); transition: background 0.3s; }
+        .calc-table tfoot td {
+            padding: 12px 18px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .total-label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: right;
+        }
+        .total-value {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text);
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .grand-row td { padding-top: 14px !important; padding-bottom: 14px !important; }
+        .grand-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: right;
+        }
+        .grand-value {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-align: right;
+        }
+
+        /* BOTTOM */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .bottom-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .bottom-card-title {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .bottom-input {
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 11px 14px;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.3s, color 0.3s;
+        }
+        .bottom-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,106,79,0.15); }
+        .bottom-input::placeholder { color: var(--text-muted); opacity: 0.55; }
+
+        /* Earnings */
+        .earnings-card {
+            background: linear-gradient(135deg, #131313 0%, #222 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .earnings-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-gold));
+        }
+        .earnings-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10px;
+        }
+        .earnings-value {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            letter-spacing: -0.01em;
+            line-height: 1;
+        }
+        .earnings-sub {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* Action buttons */
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: var(--radius);
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-danger {
+            background: var(--delete-bg);
+            color: var(--delete-color);
+            border: 1.5px solid transparent;
+        }
+        .btn-danger:hover { background: var(--delete-hover); color: #fff; }
+        .btn-print {
+            background: var(--accent-gold);
+            color: #111;
+        }
+        .btn-print:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,168,76,0.3); }
+
+        /* Print */
         @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #printableTable, #printableTable * {
-                visibility: visible;
-            }
-
-            #printableTable {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-
-            /* Show these elements in the print view */
-            #printableValues, #printableValues * {
-                visibility: visible;
+            .top-bar, .left-panel, .right-actions, .delete-btn, .bottom-grid, .earnings-card { display: none !important; }
+            .right-panel { padding: 0 !important; }
+            .right-header { padding: 20px; border-bottom: 2px solid #333; margin-bottom: 16px; }
+            .right-title::before {
+                content: 'MEGZ PAINT LTD. — ';
+                font-family: Georgia, serif;
             }
         }
 
-        /* Hide these elements from print view */
-        @media screen {
-            #printableValues {
-                display: none;
-            }
+        @keyframes rowIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        @media (max-width: 1024px) {
+            .calc-layout { grid-template-columns: 1fr; }
+            .left-panel { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+            .right-panel { padding: 28px 20px; }
+            .bottom-grid { grid-template-columns: 1fr; }
+            .earnings-card { min-height: 160px; }
+        }
+        @media (max-width: 640px) {
+            .top-bar { padding: 0 16px; }
+            .right-panel { padding: 20px 16px; }
+            .right-header { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-4 pt-4">
-                <div class="shadow shadow-sm p-4">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="h2 text-center py-4">
-                                Megz Paint Limited
-                                Estimate Calculator
-                            </div>
-                            <hr />
-                        </div>
-                        <div class="col-lg-12 pb-4">
-                            <select id="select_Category" type="number" onchange="FPA_OnChange()" style="font-size:20px" class="form-select form-select-lg">
-                                <option>All Exterior</option>
-                                <option>All Interior</option>
-                                <option>Base</option>
-                                <option>BGC Columns</option>
-                                <option>BGC Duragroove</option>
-                                <option>Brick</option>
-                                <option>Cedar</option>
-                                <option>Ceilling</option>
-                                <option>Deck</option>
-                                <option>Door & Frame</option>
-                                <option>Exterior Wall</option>
-                                <option>Featured Wall</option>
-                                <option>High Ceiling</option>
-                                <option>High Door</option>
-                                <option>Interior Wall (2.4)</option>
-                                <option>Interior Wall (3)</option>
-                                <option>Roof (1.4)</option>
-                                <option>Roof (2)</option>
-                                <option>Soffit</option>
-                                <option>Soffit Alfresco</option>
-                                <option>Stairwell</option>
-                                <option>Weatherboard</option>
-                                <option>Water Blasting</option>
-                                <option>Whole House</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-12">
-                            <div id="input_FPA_Label" class="py-2 h5">Enter (Qty/Sqm)</div>
-                            <input id="input_FPA" type="number" onkeyup="FPA_OnChange()" style="font-size:20px" class="form-control form-control-lg" />
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="py-2 h5">Enter Rates</div>
-                            <input id="input_Rate" type="number" onkeyup="FPA_OnChange()" style="font-size:20px" class="form-control form-control-lg" />
-                        </div>
-                        <div class="col-lg-12 py-2">
-                            <span id="totalAmount" class="h1"></span>
-                            <div class="py-1"></div>
-                            <button class="btn btn-success w-100" id="save_button">Save</button>
-                        </div>
-                    </div>
+    <div class="top-bar">
+        <a href="index.html" class="top-bar-logo">MEGZ <span>PAINT</span> LTD.</a>
+        <div class="top-bar-actions">
+            <a href="index.html" class="top-bar-link"><i class="bi bi-arrow-left"></i> Back to Site</a>
+            <button id="theme-toggle"><i class="bi bi-moon-fill"></i> Dark</button>
+        </div>
+    </div>
+
+    <div class="calc-layout">
+        <!-- LEFT: Input Panel -->
+        <div class="left-panel">
+            <div class="panel-header">
+                <div class="panel-eyebrow">Estimate Tool</div>
+                <div class="panel-title">MEGZ <span>PAINT</span><br/>Calculator</div>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Category</label>
+                <select id="select_Category" class="field-select" onchange="FPA_OnChange()">
+                    <option>All Exterior</option>
+                    <option>All Interior</option>
+                    <option>Base</option>
+                    <option>BGC Columns</option>
+                    <option>BGC Duragroove</option>
+                    <option>Brick</option>
+                    <option>Cedar</option>
+                    <option>Ceilling</option>
+                    <option>Deck</option>
+                    <option>Door &amp; Frame</option>
+                    <option>Exterior Wall</option>
+                    <option>Featured Wall</option>
+                    <option>High Ceiling</option>
+                    <option>High Door</option>
+                    <option>Interior Wall (2.4)</option>
+                    <option>Interior Wall (3)</option>
+                    <option>Roof (1.4)</option>
+                    <option>Roof (2)</option>
+                    <option>Soffit</option>
+                    <option>Soffit Alfresco</option>
+                    <option>Stairwell</option>
+                    <option>Weatherboard</option>
+                    <option>Water Blasting</option>
+                    <option>Whole House</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label id="input_FPA_Label" class="field-label">Quantity / Sqm</label>
+                <input id="input_FPA" type="number" class="field-input" placeholder="0.00" onkeyup="FPA_OnChange()" oninput="FPA_OnChange()" />
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Rate ($ per unit)</label>
+                <input id="input_Rate" type="number" class="field-input" placeholder="0.00" onkeyup="FPA_OnChange()" oninput="FPA_OnChange()" />
+            </div>
+
+            <div class="amount-display">
+                <div class="amount-label">Calculated Amount</div>
+                <div class="amount-value" id="totalAmount">$0.00</div>
+            </div>
+
+            <button class="save-btn" id="save_button">
+                <i class="bi bi-plus-circle-fill"></i>
+                Add to Estimate
+            </button>
+        </div>
+
+        <!-- RIGHT: Table + Summary -->
+        <div class="right-panel">
+            <div class="right-header">
+                <div class="right-title">Estimate Breakdown</div>
+                <div class="right-actions">
+                    <button class="action-btn btn-danger" onclick="clearAll()">
+                        <i class="bi bi-trash3"></i> Clear All
+                    </button>
+                    <button class="action-btn btn-print" onclick="printTable()">
+                        <i class="bi bi-printer-fill"></i> Print Estimate
+                    </button>
                 </div>
             </div>
-            <div class="col-lg-8 shadow shadow-sm">
-                <hr />
-                <div id="printableTable" class="table-responsive">
-                    <table class="table table-sm">
-                        <thead class="bg-light text-center">
+
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="calc-table">
+                        <thead>
                             <tr>
-                                <td class="text-nowrap px-4"><b>Id</b></td>
-                                <td class="text-nowrap px-4"><b>Description</b></td>
-                                <td class="text-nowrap px-4"><b>Qty m2</b></td>
-                                <td class="text-nowrap px-4"><b>Price</b></td>
-                                <td class="text-nowrap px-4"><b>Amount</b></td>
-                                <td class="text-nowrap px-4" width="100px"><b>Action</b></td>
+                                <th>#</th>
+                                <th>Description</th>
+                                <th class="tr">Qty m²</th>
+                                <th class="tr">Rate</th>
+                                <th class="tr">Amount</th>
+                                <th class="tc">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="MyData" class="text-center">
-                        </tbody>
-                        <tfoot class="text-end">
+                        <tbody id="MyData"></tbody>
+                        <tfoot>
                             <tr>
-                                <td colspan="5" class="text-end">
-                                    <b>Subtotal:</b>
-                                    <span id="subtotal"></span>
-                                </td>
+                                <td colspan="4" class="total-label">Subtotal</td>
+                                <td class="total-value" id="subtotal">—</td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td colspan="5" class="text-end">
-                                    <b>GST (15%):</b>
-                                    <span id="gst"></span>
-                                </td>
+                                <td colspan="4" class="total-label">GST (15%)</td>
+                                <td class="total-value" id="gst">—</td>
                                 <td></td>
-
                             </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">
-                                    <b>Grand Total:</b>
-                                    <span id="grandTotal"></span>
-                                </td>
+                            <tr class="grand-row">
+                                <td colspan="4" class="grand-label">Grand Total</td>
+                                <td class="grand-value" id="grandTotal">—</td>
                                 <td></td>
                             </tr>
                         </tfoot>
                     </table>
-                    <div id="printableValues" class="py-3">
-                        <div><b>Cost of Materials:</b> <span id="displayCostOfMaterials">0.00</span></div>
-                        <div><b>Hours to Complete:</b> <span id="displayHoursToComplete">0.00</span></div>
-                        <div><b>TRH Including GST:</b> <span id="displayTRHIncludingGST">0.00</span></div>
+                </div>
+            </div>
+
+            <div class="bottom-grid">
+                <div style="display:flex; flex-direction:column; gap:16px;">
+                    <div class="bottom-card">
+                        <div class="bottom-card-title"><i class="bi bi-box-seam"></i> Cost of Materials</div>
+                        <input id="costOfMaterials" class="bottom-input" type="number" placeholder="Enter material cost..." onkeyup="bind()" oninput="bind()" />
                     </div>
-
+                    <div class="bottom-card">
+                        <div class="bottom-card-title"><i class="bi bi-clock"></i> Hours to Complete</div>
+                        <input id="hoursToComplete" class="bottom-input" type="number" placeholder="Enter hours..." onkeyup="bind()" oninput="bind()" />
+                    </div>
                 </div>
-
-
-                <div class="py-1">
-                    <b>Cost of materials</b>
-                    <input id="costOfMaterials" onkeyup="bind()" class="form-control form-control-sm" type="number" placeholder="Cost of materials" />
+                <div class="earnings-card">
+                    <div class="earnings-label">Earnings Per Hour</div>
+                    <div class="earnings-value" id="earningsDisplay">—</div>
+                    <div class="earnings-sub">Subtotal minus materials<br/>divided by hours</div>
                 </div>
-                <div class="py-1">
-                    <b>Hours to complete</b>
-                    <input id="hoursToComplete" onkeyup="bind()" class="form-control form-control-sm" type="number" placeholder="Hours to complete" />
-                </div>
-                <div class="py-1">
-                    <p id="result">TRH including GST: 0.00</p>
-                </div>
-                <button class="btn btn-primary" onclick="printTable()">Print Table</button>
-
             </div>
         </div>
     </div>
 
     <script>
-
         var input_FPA = document.getElementById('input_FPA');
         var input_FPA_Label = document.getElementById('input_FPA_Label');
         var input_Rate = document.getElementById('input_Rate');
         var select_Category = document.getElementById('select_Category');
-        var totalAmount = document.getElementById('totalAmount');
+        var totalAmountEl = document.getElementById('totalAmount');
+        var currentAmount = 0;
 
-        function ComputeCeillings(fpa, rate) {
-            return fpa * rate;
-        }
-        function ComputeWalls_2400(fpa, rate) {
-            return (fpa * 2.5 * rate);
-        }
-        function ComputeWalls_3000(fpa, rate) {
-            return (fpa * 3 * rate);
-        }
-        function ComputeWalls_80(fpa, rate) {
-            return fpa * rate;
-        }
-        function ComputeRoofs_1400(fpa, rate) {
-            return (fpa * 1.40 * rate);
-        }
-        function ComputeRoofs_2000(fpa, rate) {
-            return (fpa * 2 * rate);
-        }
-        function ComputeSoffits(fpa, rate) {
-            return fpa * rate;
-        }
-        function ComputeBase(fpa, rate) {
-            return (fpa * 1.15 * rate);
+        function formatNumber(n) {
+            return Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        function formatNumber(number) {
-            return number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function computeAmount(fpa, rate) {
+            var cat = select_Category.value;
+            var simpleQty = ['All Interior','All Exterior','Ceilling','Door & Frame','Stairwell','High Ceiling','High Door','Featured Wall','Whole House','Water Blasting'];
+            var sqmRate = ['Soffit','Soffit Alfresco','Weatherboard','BGC Duragroove','BGC Columns','Cedar','Deck','Brick','Exterior Wall'];
+            if (simpleQty.includes(cat)) {
+                input_FPA_Label.textContent = 'Quantity / Sqm';
+                return fpa * rate;
+            } else if (cat === 'Interior Wall (2.4)') {
+                input_FPA_Label.textContent = 'Quantity / Sqm';
+                return fpa * 2.5 * rate;
+            } else if (cat === 'Interior Wall (3)') {
+                input_FPA_Label.textContent = 'Quantity / Sqm';
+                return fpa * 3 * rate;
+            } else if (cat === 'Roof (1.4)') {
+                input_FPA_Label.textContent = 'Quantity / Sqm';
+                return fpa * 1.4 * rate;
+            } else if (cat === 'Roof (2)') {
+                input_FPA_Label.textContent = 'Quantity / Sqm';
+                return fpa * 2 * rate;
+            } else if (cat === 'Base') {
+                input_FPA_Label.textContent = 'Sqm × Rate';
+                return fpa * 1.15 * rate;
+            } else if (sqmRate.includes(cat)) {
+                input_FPA_Label.textContent = 'Sqm × Rate';
+                return fpa * rate;
+            }
+            return fpa * rate;
         }
 
         function FPA_OnChange() {
             var fpa = Number(input_FPA.value);
             var rate = Number(input_Rate.value);
-            var result = 0;
-
-            if (
-                select_Category.value == 'All Interior' ||
-                select_Category.value == 'All Exterior' ||
-                select_Category.value == 'Ceilling' ||
-                select_Category.value == 'Door & Frame' ||
-                select_Category.value == 'All Interior' ||
-                select_Category.value == 'Stairwell' ||
-                select_Category.value == 'High Ceiling' ||
-                select_Category.value == 'High Door' ||
-                select_Category.value == 'Featured Wall' ||
-                select_Category.value == 'Whole House' ||
-                select_Category.value == 'Water Blasting'
-
-            ) {
-                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
-                result = ComputeCeillings(fpa, rate);
-            }
-
-            else if (select_Category.value == 'Interior Wall (2.4)') {
-                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
-                result = ComputeWalls_2400(fpa, rate);
-            }
-            else if (select_Category.value == 'Interior Wall (3)') {
-                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
-                result = ComputeWalls_3000(fpa, rate);
-            }
-
-            else if (select_Category.value == 'Roof (1.4)') {
-                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
-                result = ComputeRoofs_1400(fpa, rate);
-            }
-            else if (select_Category.value == 'Roof (2)') {
-                input_FPA_Label.innerHTML = 'Enter (Qty/Sqm)';
-                result = ComputeRoofs_2000(fpa, rate);
-            }
-            else if
-                (
-                select_Category.value == 'Soffit' ||
-                select_Category.value == 'Soffit Alfresco' ||
-                select_Category.value == 'Weatherboard' ||
-                select_Category.value == 'BGC Duragroove' ||
-                select_Category.value == 'BGC Columns' ||
-                select_Category.value == 'Cedar' ||
-                select_Category.value == 'Deck' ||
-                select_Category.value == 'Brick'
-            ) {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
-                result = ComputeSoffits(fpa, rate);
-            }
-            else if (select_Category.value == 'Exterior Wall') {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
-                result = ComputeWalls_80(fpa, rate);
-            }
-            else if (select_Category.value == 'Base') {
-                input_FPA_Label.innerHTML = 'Enter (Sqm x rate)';
-                result = ComputeBase(fpa, rate);
-            }
-            totalAmount.innerHTML = 'Amount : ' + formatNumber(result);
+            currentAmount = computeAmount(fpa, rate);
+            totalAmountEl.textContent = '$' + formatNumber(currentAmount);
+            totalAmountEl.classList.toggle('has-value', currentAmount > 0);
         }
-    </script>
-
-    <script>
 
         document.getElementById('save_button').addEventListener('click', function () {
-            if (totalAmount.innerHTML.includes('Amount : 0.00') == true || totalAmount.innerHTML == '') {
-                alert('Please fill up the form');
-            } else {
-                SaveReservation();
+            if (!input_FPA.value || !input_Rate.value || currentAmount === 0) {
+                // Shake the amount display
+                var el = document.querySelector('.amount-display');
+                el.style.transition = 'transform 0.07s';
+                var c = 0, dir = 1;
+                var iv = setInterval(function() {
+                    el.style.transform = 'translateX(' + (dir * 7) + 'px)';
+                    dir *= -1; c++;
+                    if (c >= 6) { clearInterval(iv); el.style.transform = ''; }
+                }, 70);
+                return;
             }
+            SaveReservation();
         });
-
-        var ReservationList = [];
 
         function SaveReservation() {
             var list = localStorage.getItem("ReservationList");
-            const date = new Date();
-            var today = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+            var id = 1;
+            var newItem = JSON.stringify({
+                Id: id,
+                Description: select_Category.value,
+                Qty: formatNumber(input_FPA.value),
+                Price: input_Rate.value,
+                Amount: formatNumber(currentAmount)
+            });
             if (list) {
                 var data = JSON.parse('[' + list + ']');
-                data = '{"Id":"' + (data.length + 1) + '", "Description": "' + select_Category.value + '", "Qty": "' + formatNumber(input_FPA.value) + '", "Price": "' + input_Rate.value + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
-
-                var Current = list;
-                var Insert = data;
-                var NewData = Current + ',' + Insert;
-                localStorage.setItem("ReservationList", NewData);
+                id = data.length + 1;
+                newItem = JSON.stringify({ Id: id, Description: select_Category.value, Qty: formatNumber(input_FPA.value), Price: input_Rate.value, Amount: formatNumber(currentAmount) });
+                localStorage.setItem("ReservationList", list + ',' + newItem);
             } else {
-                var JSONdata = '{"Id": "' + 1 + '", "Description": "' + select_Category.value + '", "Qty": "' + formatNumber(input_FPA.value) + '", "Price": "' + input_Rate.value + '", "Amount": "' + totalAmount.innerHTML.replace('Amount : ', '') + '"}';
-                localStorage.setItem("ReservationList", JSONdata);
+                localStorage.setItem("ReservationList", newItem);
             }
+            input_FPA.value = '';
+            input_Rate.value = '';
+            currentAmount = 0;
+            totalAmountEl.textContent = '$0.00';
+            totalAmountEl.classList.remove('has-value');
             bind();
         }
 
         function RequestDeletion(id) {
-            if (confirm('Are you sure you want to delete id ' + id + '?')) {
+            if (confirm('Remove item #' + id + ' from the estimate?')) {
                 var list = localStorage.getItem("ReservationList");
                 var data = JSON.parse('[' + list + ']');
-
-                var NewData = '';
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].Id != id) {
-                        NewData += '{"Id":"' + data[i].Id + '", "Description": "' + data[i].Description + '", "Qty": "' + data[i].Qty + '", "Price": "' + data[i].Price + '", "Amount": "' + data[i].Amount + '"},';
-                    }
+                var filtered = data.filter(function(d) { return d.Id != id; }).map(function(d, i) {
+                    return Object.assign({}, d, { Id: i + 1 });
+                });
+                if (filtered.length === 0) {
+                    localStorage.removeItem("ReservationList");
+                } else {
+                    localStorage.setItem("ReservationList", filtered.map(function(d) { return JSON.stringify(d); }).join(','));
                 }
-                NewData = NewData.slice(0, -1);
-                localStorage.setItem("ReservationList", NewData);
                 bind();
             }
         }
 
-        function calculateGrandTotal(data) {
-            let total = 0;
-            for (var i = 0; i < data.length; i++) {
-                total += parseFloat(data[i].Amount.replace(/,/g, ''));
+        function clearAll() {
+            if (confirm('Clear all items from the estimate?')) {
+                localStorage.removeItem("ReservationList");
+                bind();
             }
-            return total;
+        }
+
+        function calcTotal(data) {
+            return data.reduce(function(s, d) { return s + parseFloat((d.Amount || '0').replace(/,/g, '')); }, 0);
         }
 
         function bind() {
             var list = localStorage.getItem("ReservationList");
+            var tbody = document.getElementById('MyData');
+            if (!list) {
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="bi bi-clipboard2-plus"></i><p>No items yet.<br>Select a category, enter qty &amp; rate, then click <strong>Add to Estimate</strong>.</p></div></td></tr>';
+                document.getElementById('subtotal').textContent = '—';
+                document.getElementById('gst').textContent = '—';
+                document.getElementById('grandTotal').textContent = '—';
+                document.getElementById('earningsDisplay').textContent = '—';
+                return;
+            }
             var data = JSON.parse('[' + list + ']');
-            var row = '';
+            var rows = '';
             for (var i = data.length - 1; i >= 0; i--) {
-                row += '<tr>';
-                row += '<td>' + data[i].Id + '</td>';
-                row += '<td>' + data[i].Description + '</td>';
-                row += '<td>' + data[i].Qty + '</td>';
-                row += '<td>' + data[i].Price + '</td>';
-                row += '<td>' + data[i].Amount + '</td>';
-                row += '<td>';
-                row += '<a onclick="RequestDeletion(' + data[i].Id + ')" class="btn delete-btn">Delete</a></td>';
-                row += '</tr>';
+                rows += '<tr>';
+                rows += '<td><span class="row-id">' + data[i].Id + '</span></td>';
+                rows += '<td>' + data[i].Description + '</td>';
+                rows += '<td class="tr">' + data[i].Qty + '</td>';
+                rows += '<td class="tr">$' + Number(data[i].Price).toFixed(2) + '</td>';
+                rows += '<td class="tr amount-cell">$' + data[i].Amount + '</td>';
+                rows += '<td class="tc"><button class="delete-btn" onclick="RequestDeletion(' + data[i].Id + ')"><i class="bi bi-trash3"></i></button></td>';
+                rows += '</tr>';
             }
-            document.getElementById('MyData').innerHTML = row;
+            tbody.innerHTML = rows;
 
-            // Calculate and display the subtotal, GST, and grand total
-            let subtotal = calculateGrandTotal(data);
-            let gst = (subtotal * 0.15); // Assuming GST rate is 15%
-            let grandTotal = (parseFloat(subtotal) + parseFloat(gst));
+            var subtotal = calcTotal(data);
+            var gst = subtotal * 0.15;
+            var grandTotal = subtotal + gst;
+            document.getElementById('subtotal').textContent = '$' + formatNumber(subtotal);
+            document.getElementById('gst').textContent = '$' + formatNumber(gst);
+            document.getElementById('grandTotal').textContent = '$' + formatNumber(grandTotal);
 
-            document.getElementById('subtotal').innerText = formatNumber(subtotal);
-            document.getElementById('gst').innerText = formatNumber(gst);
-            document.getElementById('grandTotal').innerText = formatNumber(grandTotal);
-
-            try {
-                var costOfMaterials = Number(document.getElementById('costOfMaterials').value);
-                var hoursToComplete = Number(document.getElementById('hoursToComplete').value);
-
-                // Ensure valid numbers
-                if (isNaN(costOfMaterials) || isNaN(hoursToComplete) || costOfMaterials <= 0 || hoursToComplete <= 0) {
-
-                }
-                else {
-                    // Calculate earnings per hour (D) based on the formula
-                    var earningsPerHour = (subtotal - costOfMaterials) / hoursToComplete;
-
-
-                    // Display the result
-                    document.getElementById('result').innerHTML = `Earnings per hour: ${formatNumber(earningsPerHour)}`;
-
-
-                    // Update values for print
-                    document.getElementById('displayCostOfMaterials').innerText = formatNumber(costOfMaterials);
-                    document.getElementById('displayHoursToComplete').innerText = formatNumber(hoursToComplete);
-                    document.getElementById('displayTRHIncludingGST').innerText = formatNumber(earningsPerHour);
-
-                }
-
-
-            } catch (error) {
-                console.error('Error calculating earnings per hour:', error);
-                document.getElementById('result').innerHTML = 'Error calculating earnings per hour.';
+            var com = Number(document.getElementById('costOfMaterials').value);
+            var hrs = Number(document.getElementById('hoursToComplete').value);
+            if (com > 0 && hrs > 0) {
+                document.getElementById('earningsDisplay').textContent = '$' + formatNumber((subtotal - com) / hrs) + '/hr';
+            } else {
+                document.getElementById('earningsDisplay').textContent = '—';
             }
         }
-        function printTable() {
-            window.print();
-        }
+
+        function printTable() { window.print(); }
+
+        // Dark mode
+        (function() {
+            var root = document.documentElement;
+            var saved = localStorage.getItem('megz-theme') || 'light';
+            root.setAttribute('data-theme', saved);
+            updateIcon(saved);
+            document.getElementById('theme-toggle').addEventListener('click', function() {
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('megz-theme', next);
+                updateIcon(next);
+            });
+            function updateIcon(t) {
+                document.getElementById('theme-toggle').innerHTML = t === 'dark'
+                    ? '<i class="bi bi-sun-fill"></i> Light'
+                    : '<i class="bi bi-moon-fill"></i> Dark';
+            }
+        })();
+
         bind();
     </script>
 </body>
